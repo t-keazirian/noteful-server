@@ -2,6 +2,7 @@ const express = require('express');
 const xss = require('xss');
 const path = require('path');
 const FoldersService = require('./folders-service');
+const NotesService = require('../notes/notes-service');
 
 const foldersRouter = express.Router();
 const jsonParser = express.json();
@@ -36,6 +37,29 @@ foldersRouter
   })
 
   foldersRouter
+    .route('/:folder_id/notes')
+    .all((req, res, next) => {
+      FoldersService.getFolderById(req.app.get('db'), req.params.folder_id)
+        .then(folder => {
+          if (!folder) {
+            return res.status(404).json({
+              error: {message: `Folder doesn't exist`}
+            })
+          }
+          res.folder = folder;
+          next()
+        })
+        .catch(next)
+    })
+    .get((req, res, next) => {
+      NotesService.getNotesByFolderId(req.app.get('db'), res.folder.id)
+      .then(notes => {
+        res.json({ notes })
+      })
+      .catch(next)
+    })
+
+  foldersRouter
     .route('/:folder_id')
     .all((req, res, next) => {
       FoldersService.getFolderById(req.app.get('db'), req.params.folder_id)
@@ -59,7 +83,7 @@ foldersRouter
   .delete((req, res, next) => {
     FoldersService.deleteFolder(req.app.get('db'), req.params.folder_id)
       .then(() => {
-        res.status(404).end()
+        res.status(204).end()
       })
       .catch(next)
   })

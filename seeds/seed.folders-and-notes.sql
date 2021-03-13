@@ -1,3 +1,5 @@
+TRUNCATE folders, notes RESTART IDENTITY CASCADE;
+
 INSERT INTO folders (folder_name)
 VALUES
 ('Folder 1'),

@@ -27,7 +27,7 @@ notesRouter
       }
     }
 
-    newNote.modified = modified;
+    // newNote.modified = modified;
 
     NotesService.insertNote(req.app.get('db'), newNote)
       .then(note => {
@@ -66,7 +66,7 @@ notesRouter
   .delete((req, res, next) => {
     NotesService.deleteNote(req.app.get('db'), req.params.note_id)
       .then(() => {
-        res.status(404).end()
+        res.status(204).end()
       })
       .catch(next)
   })
