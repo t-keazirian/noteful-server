@@ -2,7 +2,6 @@ const {expect} = require('chai');
 const supertest = require('supertest');
 const app = require('../src/app');
 const knex = require('knex');
-const FoldersService = require('../src/folders/folders-service');
 const { makeFoldersArray } = require('./folders.fixtures');
 const { makeNotesArray } = require('./notes.fixtures');
 

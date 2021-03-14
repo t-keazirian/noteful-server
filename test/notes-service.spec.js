@@ -2,11 +2,8 @@ const { expect } = require('chai');
 const supertest = require('supertest');
 const app = require('../src/app');
 const knex = require('knex');
-const NotesService = require('../src/notes/notes-service');
-const FoldersService = require('../src/folders/folders-service');
 const { makeNotesArray } = require('./notes.fixtures');
 const { makeFoldersArray } = require('./folders.fixtures');
-const e = require('express');
 
 describe('Notes endpoint', () => {
   let db;
